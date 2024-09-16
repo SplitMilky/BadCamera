@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <RootNamespace>Camera.Zoom</RootNamespace>
+    <RootNamespace>BadCamera</RootNamespace>
     <AssemblyName>BadCamera</AssemblyName>
     <OutputType>Library</OutputType>
   </PropertyGroup>
@@ -37,21 +37,27 @@
     </Reference>
     <Reference Include="netstandard">
       <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\netstandard.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Sandbox.Common">
       <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\Sandbox.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="VRage">
-      <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\VRage.dll</HintPath>
-    </Reference>
-    <Reference Include="VRageMath">
-      <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\VRage.Math.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Sandbox.Game">
       <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\Sandbox.Game.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-      <Reference Include="VRage.Game">
-    <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\VRage.Game.dll</HintPath>
+    <Reference Include="VRage">
+      <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\VRage.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VRage.Game">
+      <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\VRage.Game.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VRageMath">
+      <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\VRage.Math.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
 
