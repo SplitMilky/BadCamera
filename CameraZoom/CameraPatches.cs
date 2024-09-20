@@ -1,55 +1,41 @@
 ﻿using HarmonyLib;
 using Sandbox.Engine.Utils;
-using VRage.Game.Components;
-using VRageMath;
-using Sandbox.Game.Entities;
-using VRage.Game;
-using System;
 using System.Reflection;
-using VRage.Game.Entity;
+using VRageMath;
+
 
 namespace BadCamera
 {
-    [MySessionComponentDescriptor(MyUpdateOrder.NoUpdate)]
-    public class NoCameraCollisionMod : MySessionComponentBase
-    {
-        private bool _initialized = false;
-
-        public override void LoadData()
-        {
-            if (_initialized)
-                return;
-
-            var harmony = new Harmony("com.yourname.nocameracollision");
-            harmony.PatchAll();
-
-            _initialized = true;
-        }
-    }
-
     [HarmonyPatch]
-    public static class MyThirdPersonSpectatorPatch
+    public static class MyThirdPersonSpectator_RaycastOccludingObjects_Patch
     {
-        // Prefix method matching the target method's signature exactly
-        static bool Prefix(
-            ref object __result,
-            MyEntity controlledEntity,
-            MyOrientedBoundingBoxD entitySafeObb,
-            ref Vector3D raycastOrigin,
-            ref Vector3D raycastEnd,
-            ref Vector3D raycastSafeCameraStart,
-            ref Vector3D outSafePosition)
+        static MethodBase TargetMethod()
         {
-            var myThirdPersonSpectatorType = typeof(MyThirdPersonSpectator);
-            var myCameraRaycastResultType = myThirdPersonSpectatorType.GetNestedType("MyCameraRaycastResult", BindingFlags.NonPublic);
+            // Access the private method 'RaycastOccludingObjects' using reflection
+            return typeof(MyThirdPersonSpectator).GetMethod(
+                "RaycastOccludingObjects",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+        }
 
-            var okValue = Enum.Parse(myCameraRaycastResultType, "Ok");
-
-            // Set the result to 'Ok', indicating no occluders were found
-            __result = okValue;
-
-            // Set 'outSafePosition' to the desired position
+        static bool Prefix(object __instance, object controlledEntity, object entitySafeObb,
+            ref Vector3D raycastOrigin, ref Vector3D raycastEnd, ref Vector3D raycastSafeCameraStart,
+            ref Vector3D outSafePosition, ref object __result)
+        {
+            // Set the outSafePosition to the desired end position
             outSafePosition = raycastEnd;
+
+            // Force the result to be 'Ok' to indicate no occlusion
+            // Since we can't access the enum, we'll set the underlying integer value
+            // Assuming 'Ok' corresponds to 0
+
+            // Use reflection to get the type of 'MyCameraRaycastResult'
+            var myCameraRaycastResultType = __instance.GetType().GetNestedType("MyCameraRaycastResult", BindingFlags.NonPublic);
+
+            // Get the 'Ok' value from the enum
+            var okValue = System.Enum.ToObject(myCameraRaycastResultType, 0);
+
+            // Set the __result to 'Ok'
+            __result = okValue;
 
             // Skip the original method
             return false;

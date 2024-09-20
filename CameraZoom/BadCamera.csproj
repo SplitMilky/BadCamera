@@ -30,6 +30,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Message Text="Copying $(OutputPath)$(AssemblyName).dll to G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\Plugins\Local\" Importance="high" />
+    <Exec Command="ping 127.0.0.1 -n 5 > nul" /> <!-- Add a delay of 5 seconds -->
+    <Exec Command="xcopy /Y /I &quot;$(MSBuildProjectDirectory)\$(OutputPath)$(AssemblyName).dll&quot; &quot;G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\Plugins\Local\&quot;" />
+  </Target>
+
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\0Harmony.dll</HintPath>
@@ -54,7 +60,7 @@
     <Reference Include="VRage.Game">
       <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\VRage.Game.dll</HintPath>
       <Private>False</Private>
-    </Reference>
+   </Reference>
     <Reference Include="VRageMath">
       <HintPath>G:\Games\Steam\steamapps\common\SpaceEngineers\Bin64\VRage.Math.dll</HintPath>
       <Private>False</Private>
